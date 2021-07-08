@@ -19,6 +19,15 @@ SEARCH_SPACE = []
 OBJECTS_PARENTS = {}
 
 
+# In[11]:
+
+
+# Add the choices to the search space
+def oneof(candidates, hints = None):
+    SEARCH_SPACE.append(candidates)
+    return candidates
+
+
 # In[6]:
 
 
