@@ -12,8 +12,6 @@ This code follows the same flow as the MNIST example of PyGlove (Appendix B.5) b
 using CIFAR-10 (Krizhevsky, 2009) dataset, which was used in the original TensorFlow
 project on CNN (Abadi et al., 2019).
 
-The code used in this example is available at: https://github.com/alalh100/Dynamically-
-Modifying-ML-Programs-for-Automated-Machine-Learning.git
 
 References:
 
@@ -28,8 +26,7 @@ Y., Jozefowicz, R., Kaiser, L., Kudlur, M., Levenberg, J., Mané, D., Monga, R.,
 Murray, D., Olah, C., Schuster, M., Shlens, J., Steiner, B., Sutskever, I., Talwar, K., Tucker,
 P., Vanhoucke, V., Vasudevan, V., Viégas, F., Vinyals, O., Warden, P., Wattenberg, M.,
 Wicke, M., Yu, Y. and Zheng, X. (2019). TensorFlow Tutorials Convolutional Neu-
-ral Network (CNN). https://github.com/tensorflow/docs/blob/master/
-site/en/tutorials/images/cnn.ipynb.
+ral Network (CNN). https://github.com/tensorflow/docs/blob/master/site/en/tutorials/images/cnn.ipynb.
 
 
 Krizhevsky, A. (2009). Learning Multiple Layers of Features from Tiny Images.
