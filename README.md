@@ -13,8 +13,8 @@ This code follows the same flow as the MNIST example of PyGlove (Appendix B.5) b
 using CIFAR-10 (Krizhevsky, 2009) dataset, which was used in the original TensorFlow
 project on CNN (Abadi et al., 2019).
 
-- PyGlove: My implementation of the PyGlove library
-- cnn: the main project file. It is a modified version of CNN tensorflow project using PyGlove
+- **PyGlove**: My implementation of the PyGlove library
+- **cnn**: the main project file. It is a modified version of CNN tensorflow project using PyGlove
 
 **References:**
 
