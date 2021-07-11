@@ -1,7 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-
 from random import choice
 from tensorflow.keras import datasets, layers, models
 
@@ -27,6 +23,7 @@ class symbolic_object:
         self.__name__ = 'symbolic'
 
     # This method save the relationship between the object (parent) and the arguments
+    # This helps matching the the object with its arguments
     def __call__(self, *args, activation=None):
         self.args = args
 
@@ -36,7 +33,6 @@ class symbolic_object:
         if activation is not None:
             self.activation = activation
             OBJECTS_PARENTS[id(activation)] = id(self)
-
         return self
 
     def set_name(self, name):
@@ -65,7 +61,7 @@ def symbolize(real_object):
 
 # takes a class name, the wanted arguments and the number of arguments and returns an executable object
 # Helpful method for the materialize method
-def create_object_from_symbols(class_name, arguments, args_num):
+def create_object_from_symbols(class_name, args_num, arguments):
     temp_dict = {}
     if args_num == 0:
         code = "temp_dict['var']" + ' = ' + class_name + '()'
@@ -77,8 +73,8 @@ def create_object_from_symbols(class_name, arguments, args_num):
     else:
         args = str(arguments[0])
         for i in range(1, args_num):
-            arguments[i] = str(arguments[i])
-            args += ', ' + arguments[i]
+            string_arg = str(arguments[i])
+            args += ', ' + string_arg
         code = "temp_dict['var']" + ' = ' + class_name + '(' + args + ')'
     exec(code)
     return temp_dict['var']
@@ -100,16 +96,10 @@ def random_search():
 # helpful for the materialize method
 def organized_choices(choices):
     number_of_choices = len(choices) - 1
-
     # last choice ist the model choice
     num_of_model_chosen = choices[number_of_choices]
-
     # how many layers for this model
     num_layers = len(SEARCH_SPACE[number_of_choices][num_of_model_chosen])
-
-    # number of model
-    num_models = len(SEARCH_SPACE[number_of_choices])
-
     return num_of_model_chosen, num_layers
 
 
@@ -117,36 +107,36 @@ def organized_choices(choices):
 # returns an executable model out of the choices of the search algorithm
 def materialize(choices):
     number_of_choices = len(SEARCH_SPACE) - 1
-
     num_of_model_chosen, num_layers = organized_choices(choices)
 
     # get the layers for this model from the search space    
-    args = []
+    layers = []
     old_args = SEARCH_SPACE[number_of_choices][choices[number_of_choices]]
 
+    # recreate the layers
     for i in range(num_layers):
-        # recreate the layers
-        if ('symbolic' in str(type(old_args[i]))):
+        # if the layer is symbolized
+        if 'symbolic' in str(type(old_args[i])):
             symbolic_obj = old_args[i]
-            arg_list = symbolic_obj.get_args()
+            # arg_list = symbolic_obj.get_args()
             selected_args = []
             # get the choice for this list
-            for i in range(len(SEARCH_SPACE)):
-                if (id(SEARCH_SPACE[i]) in OBJECTS_PARENTS):
-                    if (OBJECTS_PARENTS[id(SEARCH_SPACE[i])] == id(symbolic_obj)):
-                        if (isinstance(SEARCH_SPACE[i][choices[i]], str)):
-                            activation = 'activation = "' + SEARCH_SPACE[i][choices[i]] + '" '
+            for j in range(len(SEARCH_SPACE)):
+                if id(SEARCH_SPACE[j]) in OBJECTS_PARENTS:
+                    if OBJECTS_PARENTS[id(SEARCH_SPACE[j])] == id(symbolic_obj):
+                        if isinstance(SEARCH_SPACE[j][choices[j]], str):
+                            activation = 'activation = "' + SEARCH_SPACE[j][choices[j]] + '" '
                             selected_args.append(activation)
                         else:
-                            selected_args.append(SEARCH_SPACE[i][choices[i]])
+                            selected_args.append(SEARCH_SPACE[j][choices[j]])
             # add layer. to name
             name = 'layers.' + symbolic_obj.name
-            obj = create_object_from_symbols(name, selected_args, len(selected_args))
-            args.append(obj)
+            obj = create_object_from_symbols(name, len(selected_args), selected_args)
+            layers.append(obj)
         else:
-            args.append(old_args[i])
+            layers.append(old_args[i])
     # for now just for the Sequential model
-    return models.Sequential(args)
+    return models.Sequential(layers)
 
 
 # samples models out of the search space using the choices of the search algorithm
@@ -158,4 +148,7 @@ def sample(trainer, search_algorithm, max_trails=10):
         choices = search_algorithm()
         model = materialize(choices)
         models.append(model)
+    # Emptying out the search space for reducibility
+    SEARCH_SPACE.clear()
+    OBJECTS_PARENTS.clear()
     return models
