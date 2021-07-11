@@ -8,12 +8,12 @@ OBJECTS_PARENTS = {}
 
 
 # Add the choices to the search space
-def oneof(candidates, hints=None):
+def oneof(candidates):
     SEARCH_SPACE.append(candidates)
     return candidates
 
 
-# Abstraction of the normal objects that can save its arguments in a list
+# Abstraction of the normal objects that can save its arguments
 # The symbolic object help to recreate the original object with different arguments
 class symbolic_object:
     def __init__(self):
@@ -37,6 +37,7 @@ class symbolic_object:
 
     def set_name(self, name):
         self.name = name
+
 
 # Takes a class as an argument and returns a symbolic object
 def symbolize(real_object):
@@ -105,7 +106,6 @@ def materialize(choices):
         # if the layer is symbolized
         if 'symbolic' in str(type(old_args[i])):
             symbolic_obj = old_args[i]
-            # arg_list = symbolic_obj.get_args()
             selected_args = []
             # get the choice for this list
             for j in range(len(SEARCH_SPACE)):
@@ -116,7 +116,7 @@ def materialize(choices):
                             selected_args.append(activation)
                         else:
                             selected_args.append(SEARCH_SPACE[j][choices[j]])
-            # add layer. to name
+            # add "layer." to name
             name = 'layers.' + symbolic_obj.name
             obj = create_object_from_symbols(name, len(selected_args), selected_args)
             layers.append(obj)
