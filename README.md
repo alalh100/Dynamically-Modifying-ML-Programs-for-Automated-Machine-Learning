@@ -1,5 +1,7 @@
-# Dynamically-Modifying-ML-Programs-for-Automated-Machine-Learning
-PyGlove on TensorFlow
+
+# Dynamically Modifying ML Programs for Automated Machine Learning
+
+## PyGlove on TensorFlow
 
 This code shows how PyGlove (Peng et al., 2020) can be dropped into a TensorFlow project. The original PyGlove library has not been released yet. Therefore, I implemented some of the
 basic methods of PyGlove that are needed for this example. My implementation of the
@@ -11,8 +13,10 @@ This code follows the same flow as the MNIST example of PyGlove (Appendix B.5) b
 using CIFAR-10 (Krizhevsky, 2009) dataset, which was used in the original TensorFlow
 project on CNN (Abadi et al., 2019).
 
+- PyGlove: My implementation of the PyGlove library
+- cnn: the main project file. It is a modified version of CNN tensorflow project using PyGlove
 
-References:
+**References:**
 
 Peng, D., Dong, X., Real, E., Tan, M., Lu, Y., Bender, G., Liu, H., Kraft, A., Liang, C. and
 Le, Q. (2020). PyGlove: Symbolic Programming for Automated Machine Learning.
