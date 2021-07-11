@@ -38,19 +38,6 @@ class symbolic_object:
     def set_name(self, name):
         self.name = name
 
-    def read_name(self):
-        print(self.name)
-
-    def get_args(self):
-        arg_list = []
-        for i in range(len(self.args)):
-            arg_list.append(self.args[i])
-
-        if self.activation is not None:
-            arg_list.append(self.activation)
-        return arg_list
-
-
 # Takes a class as an argument and returns a symbolic object
 def symbolize(real_object):
     name = real_object.__name__
@@ -143,7 +130,7 @@ def materialize(choices):
 # max_trails is the number of wanted samples 
 def sample(trainer, search_algorithm, max_trails=10):
     models = []
-    train = trainer()
+    trainer()
     for i in range(max_trails):
         choices = search_algorithm()
         model = materialize(choices)
