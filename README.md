@@ -1,8 +1,7 @@
 # Dynamically-Modifying-ML-Programs-for-Automated-Machine-Learning
 PyGlove on TensorFlow
 
-This code shows how PyGlove (Peng et al., 2020) can be dropped into a TensorFlow project. The orig-
-inal PyGlove library has not been released yet. Therefore, I implemented some of the
+This code shows how PyGlove (Peng et al., 2020) can be dropped into a TensorFlow project. The original PyGlove library has not been released yet. Therefore, I implemented some of the
 basic methods of PyGlove that are needed for this example. My implementation of the
 functions of PyGlove follows their concepts, but it is undoubtedly different in the details.
 The names of the functions were chosen exactly the same as in the original library, so the
