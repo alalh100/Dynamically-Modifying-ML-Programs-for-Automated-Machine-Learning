@@ -1,5 +1,5 @@
 from random import choice
-from tensorflow.keras import datasets, layers, models
+from tensorflow.keras import layers, models
 
 # Search space saves all the possible choices
 # OBJECTS_PARENTS help us identify which arguments belongs to which object
