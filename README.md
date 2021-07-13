@@ -16,7 +16,13 @@ project on CNN (Abadi et al., 2019).
 - **PyGlove**: my implementation of the PyGlove library.
 - **cnn**: the main project file. It is a modified version of CNN TensorFlow project using PyGlove.
 
-**References:**
+### My Python and TensorFlow versions
+
+**Python:** 3.8.5
+**TensorFlow:** 2.5.0
+
+
+### References
 
 Peng, D., Dong, X., Real, E., Tan, M., Lu, Y., Bender, G., Liu, H., Kraft, A., Liang, C. and
 Le, Q. (2020). PyGlove: Symbolic Programming for Automated Machine Learning.
