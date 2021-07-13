@@ -4,13 +4,14 @@ from tensorflow.keras import datasets, layers, models, activations
 
 
 class PyGloveTest(unittest.TestCase):
+
     def setUp(self):
         # Making simple example search space with 12 possible different models
         pg.SEARCH_SPACE.clear()
         Conv2D = pg.symbolize(layers.Conv2D)
         Dense = pg.symbolize(layers.Dense)
         Sequential = pg.symbolize(models.Sequential)
-        test_search_space = Sequential(pg.oneof([
+        return Sequential(pg.oneof([
             # Model family 1: only dense layers .
             [
                 layers.InputLayer((32, 32, 3)),
@@ -30,12 +31,10 @@ class PyGloveTest(unittest.TestCase):
         args = [64, (2, 2), 'activation = "relu"']
         py_object = pg.create_object_from_symbols(class_name, len(args), args)
 
-        with self.subTest():
-            self.assertEqual(py_object.filters, 64)
-        with self.subTest():
-            self.assertEqual(py_object.kernel_size, (2,2))
-        with self.subTest():
-            self.assertEqual(py_object.activation, activations.relu)
+        # more than one assert in the same test, since it is only the same model iff all the components are as expected
+        self.assertEqual(py_object.filters, 64)
+        self.assertEqual(py_object.kernel_size, (2,2))
+        self.assertEqual(py_object.activation, activations.relu)
 
     def test_create_object_from_symbols_dense(self):
         class_name = "layers.Dense"
@@ -68,15 +67,36 @@ class PyGloveTest(unittest.TestCase):
         # 1: is the second choice of filter -> 128
         # 0: is the first choice of kernel_size -> (3,3)
         # 0: is the first choice of activation function -> relu
-
         model = pg.materialize(choices)
         model.build()
-        print(model.layers)
         # more than one assert in the same test, since it is only the same model iff all the components are as expected
         self.assertEqual(len(model.layers), 2)
         self.assertEqual(model.get_layer('conv2d_1').filters, 128)
         self.assertEqual(model.get_layer('conv2d_1').kernel_size, (3,3))
         self.assertEqual(model.get_layer('conv2d_1').activation, activations.relu)
+
+    def test_materialize_2(self):
+        choices = [0, 1, 1, 0, 0, 0]
+        # The last index chosen is for the model -> we selected the first model.
+        # The first two chosen indices are for the first model and therefore the rest is irrelevant.
+        # 0: is the first choice of units -> 64
+        # 0: is the first choice of activation function -> sigmoid
+        model = pg.materialize(choices)
+        model.build()
+        # more than one assert in the same test, since it is only the same model iff all the components are as expected
+        self.assertEqual(len(model.layers), 2)
+        self.assertEqual(model.get_layer('dense_1').units, 64)
+        self.assertEqual(model.get_layer('dense_1').activation, activations.sigmoid)
+
+    def test_sample(self):
+        sampled_models = pg.sample(self.setUp, pg.random_search, max_trails=3)
+
+        self.assertEqual(len(sampled_models), 3)
+
+    def test_sample_2(self):
+        sampled_models = pg.sample(self.setUp, pg.random_search, max_trails=2)
+        # check if all models are objects from Tensorflow models. It ensures models are executable & created correctly
+        self.assertTrue(all(type(model) == models.Sequential for model in sampled_models))
 
 
 if __name__ == '__main__':
