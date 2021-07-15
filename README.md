@@ -15,7 +15,7 @@ project on CNN (Abadi et al., 2019).
 
 - **PyGlove**: my implementation of the PyGlove library.
 - **cnn**: the main project file. It is a modified version of CNN TensorFlow project using PyGlove.
-- **PyGlove_Test**: test for the main methods in PyGlove
+- **PyGlove_Test**: test for the main methods in PyGlove.
 
 ### My Python and TensorFlow versions
 
