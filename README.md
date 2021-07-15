@@ -6,11 +6,11 @@
 This code shows how PyGlove (Peng et al., 2020) can be dropped into a TensorFlow project. The original PyGlove library has not been released yet. Therefore, I implemented some of the
 basic methods of PyGlove that are needed for this example. My implementation of the
 functions of PyGlove follows their concepts, but it is undoubtedly different in the details.
-The names of the functions were chosen exactly the same as in the original library, so the
+The names of the functions were chosen exactly as in the original library, so the
 project is expected to run without any modification using the original PyGlove.
 
 This code follows the same flow as the MNIST example of PyGlove (Appendix B.5) but
-using CIFAR-10 (Krizhevsky, 2009) dataset, which was used in the original TensorFlow
+using the CIFAR-10 (Krizhevsky, 2009) dataset, which was used in the original TensorFlow
 project on CNN (Abadi et al., 2019).
 
 - **PyGlove**: my implementation of the PyGlove library.
